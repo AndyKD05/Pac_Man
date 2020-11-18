@@ -10,7 +10,7 @@ root.geometry("800x700")
 #Musique
 pygame.mixer.init()
 pygame.mixer.music.load('pacman_beginning.wav')
-pygame.mixer.music.play(loops=-1, start=0.0)
+#pygame.mixer.music.play(loops=-1, start=0.0)
 
 
 
@@ -212,23 +212,63 @@ def init_phantom():
 
 #Une fonction pour le deplacement vers le haut :
 def haut(event):
-    parcours.move(Pacman,0,-5)
+    x = parcours.coords(Pacman)[0]
+    y = parcours.coords(Pacman)[1]
+    print(y)
+
+    if len(parcours.find_overlapping(x,y,x,y-20))>1:
+        print("2")
+    else:
+        parcours.move(Pacman,0,-5)
+
+    if (y <= 0):
+        parcours.move(Pacman,0,690)
 
 #Une fonction pour le deplacement vers le bas :
 def bas(event):
-    parcours.move(Pacman,0,5)
+    x = parcours.coords(Pacman)[0]
+    y = parcours.coords(Pacman)[1]
+    print(y)
+
+    if len(parcours.find_overlapping(x,y,x,y+20))>1:
+        print("2")
+    else:
+        parcours.move(Pacman,0,5)
+
+    if (y >= 690):
+        parcours.move(Pacman,0,-690)
 
 #Une fonction pour le deplacement vers la droite :
 def droite(event):
-    parcours.move(Pacman,5,0)
+    x = parcours.coords(Pacman)[0]
+    y = parcours.coords(Pacman)[1]
+    print(x)
+
+    if len(parcours.find_overlapping(x,y,x+20,y))>1:
+        print("2")
+    else:
+        parcours.move(Pacman,5,0)
+
+    if (x >= 800):
+        parcours.move(Pacman,-800,0)
    
 #Une fonction pour le deplacement vers la gauche :
 def gauche(event):
-    parcours.move(Pacman,-5,0)
+    x = parcours.coords(Pacman)[0]
+    y = parcours.coords(Pacman)[1]
+    print(x)
+
+    if len(parcours.find_overlapping(x,y,x-20,y))>1:
+        print("2")
+    else:
+        parcours.move(Pacman,-5,0)
+
+    if (x <= 0):
+        parcours.move(Pacman,800,0)
 
 Pacman = parcours.create_image(60, 320, image=pacman)
 init_phantom()
-init_balle()
+#init_balle()
 
 #On associe les fleches du clavier aux fonctions droite() et gauche():
 parcours.bind_all('<Right>', droite)
